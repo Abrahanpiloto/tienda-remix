@@ -1,11 +1,31 @@
 import {
-  Meta, Links, Outlet, LiveReload, Scripts
+  Meta, Links, Outlet, LiveReload, Scripts, useRouteError, Link, isRouteErrorResponse
 } from "@remix-run/react";
 
 import styles from "~/styles/index.css";
 import Header from "~/components/header";
 import Footer from "~/components/footer";
 
+// export function meta({error}) {
+//   if (error?.status === 404) {
+ 
+//     return [
+
+        
+//           {title: 'Guitarra no encontrada'},
+//           {description: 'Tienda de guitarras, guitarra no encontrada'}
+        
+//      ]
+//  }
+
+//   return [
+    
+//       {charset: "utf-8",
+//       title: "GuitarLA - Remix",
+//       viewport: "width=device-width,initial-scale=1"}
+    
+//   ]
+// }
 
 export function links() {
   return [
@@ -50,8 +70,11 @@ function Document({children}) {
     <html lang="es">
       <head>
     
-       <meta charSet="utf-8" />
+       <meta charSet="utf-8" 
+        
+       />
        <meta
+       
          name="viewport"
          content="width=device-width,initial-scale=1"
          
@@ -69,4 +92,20 @@ function Document({children}) {
       </body>
     </html>
   )
+}
+
+// Manejo de errores:
+export function ErrorBoundary() {
+
+  const error = useRouteError()
+
+  if(isRouteErrorResponse(error)) {
+    return (
+      <Document>
+        <p className="error">{error.status} {error.statusText}</p>
+        <Link className="error-enlace" to="/">Volver al Inicio</Link>
+      </Document>
+    )
+  }
+  
 }

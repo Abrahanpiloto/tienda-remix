@@ -1,8 +1,13 @@
 // llama todas las guitarra de la DB
-export async function getGitarras() {
-  const respuesta = await fetch(`${process.env.API_URL}/guitarras?populate=imagen`);
-  const resultado = await respuesta.json()
+export async function getGitarras(params={}) {
+  
+  const { pageSize=25 } = params;
+  
+  
+  const respuesta = await fetch(`${process.env.API_URL}/guitarras?populate=imagen&pagination[pageSize]=${pageSize}`); // despues del signo "?" se le indica a la url que son parametros (query params)
 
+  const resultado = await respuesta.json()
+ 
   return resultado
 }
 
